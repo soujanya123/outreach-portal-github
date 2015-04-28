@@ -1,0 +1,351 @@
+#+TITLE:     Outreach Portal Model 
+#+AUTHOR:    Sandeep and Amulya Sri Pulijala
+#+EMAIL:     amulya@vlabs.ac.in
+#+DATE:      2015-04-27
+#+SETUPFILE: org-templates/level-0.org
+
+* Introduction 
+This document describes the model of outreach portal.
+* Objective
+  Outreach portal is the single point of contact for feedback,
+resource management related to outreach activities. The objective of
+this model is to develop outreach portal which can be accessed by 
+     
+* Requirements
+** Functional Requirements
+*** Users of the System
+
+The various users of the system are:
+
+    + Participating Institute (PI)
+    + Nodal Centre (NC)
+    + Engineering College (EC)
+    + Partner (PT)
+    + VLEAD (VL)
+    + Students (SD)
+    + Faculty (FA)
+    + Outreach Team (OT)
+    + Lab developer(LD)
+
+
+*** Functionality
+    The following are the main functionality of outreach portal.
+    + FEEDBACK 
+    + BUGS 
+    + PLANNING 
+    + RESOURCE MANAGEMENT
+    + ANALYTICS AND REPORTS
+
+Among these, Resource management was currently modeled.
+
+
+* Design
+  
+** Workflow for the "Resource Management" functionality"
+The users for this functionality are
+   + Integration Engineers
+  
+** Workflow 1: 
+First workflow specifies how users are authenticated. Users are
+authenticated using Mozilla Persona. 
+
+** Workflow 2: 
+Users who do not have a valid email id won't be able to authenticate using Persona.
+
+** Workflow 3:
+Mozilla Persona will authenticate the Integration Engineer with valid
+email id. The authenticated integration engineer would be then
+authorized from the email id's in the database. The SQLite database was used for
+authenticating email id.
+
+The schema of the database is as follows:
+
+|------+----------|
+| SlNo | Email_id |
+|------+----------|
+
+
+** Workflow 4:
+The logged in user can now, either upload files or search for
+files. MongoDB was the database used.
+
+
+* Implementation
+  
+** Assumptions 
+  
+DBA creates web admin credentials in the database.  Web admin creates
+the users, updates and deletes the users from the system.
+
+** Extraction scripts   
+   The directory structure is as follows: 
+   #+begin_src
+    persona 
+    | ----- static    
+            | --- persona.js         
+            | --- style.css        
+
+    | ----- templates 
+            | --- index.html
+          
+      ----- persona.py
+      
+      ----- upload.py
+     
+      ----- search.py
+   #+end_src
+
+persona.py code is as follows:
+#+BEGIN_SRC python :tangle 
+  
+  from flask import Flask, render_template, session, request, abort, g
+
+import requests
+
+import sqlite3
+from flask import g
+
+DATABASE = '/home/amulya/portal/flask/examples/persona/outreach-username.db'
+
+
+app = Flask(__name__)
+app.config.update(
+    DEBUG=True,
+    SECRET_KEY='my development key',
+    PERSONA_JS='https://login.persona.org/include.js',
+    PERSONA_VERIFIER='https://verifier.login.persona.org/verify',
+)
+app.config.from_envvar('PERSONA_SETTINGS', silent=True)
+
+
+@app.before_request
+def get_current_user():
+    g.user = None
+    email = session.get('email')
+    if email is not None:
+        g.user = email
+
+
+def get_db():
+    db = getattr(g, '_database', None)
+    if db is None:
+       db = g._database = sqlite3.connect(DATABASE)
+
+    return db
+
+@app.route('/')
+def index():
+    """Just a generic index page to show."""
+    return render_template('index.html')
+
+def query_db(query, args=(), one =False):
+    cur = get_db().execute(query, args)
+    rv = cur.fetchall()
+    cur.close()
+    return (rv[0] if rv else None) if one else rv
+
+@app.route('/_auth/login', methods=['GET', 'POST'])
+def login_handler():
+    """This is used by the persona.js file to kick off the
+    verification securely from the server side.  If all is okay
+    the email address is remembered on the server.
+    """
+    email = query_db('select email from authorize;',one=True)
+    #print email
+ #   print session['email']
+#    if session.get('email') in email:
+    resp = requests.post(app.config['PERSONA_VERIFIER'], data={
+       'assertion': request.form['assertion'],
+       'audience': request.host_url,
+    }, verify=True)
+
+
+    if resp.ok :
+        verification_data = resp.json()
+       
+        if verification_data['status'] == 'okay':
+            session['email'] = verification_data['email']
+            if session['email'] in email:
+                return 'OK'
+            abort(400)
+        abort(400)
+    abort(400)
+
+
+@app.route('/_auth/logout', methods=['POST'])
+def logout_handler():
+    """This is what persona.js will call to sign the user
+    out again.
+    """
+    session.clear()
+    return 'OK'
+
+if __name__ == '__main__':
+    app.run('0.0.0.0')
+
+#+END_SRC
+
+upload.py is as follows:
+#+BEGIN_SRC python :tangle 
+from flask import Flask, request, redirect, url_for, make_response, abort
+from werkzeug import secure_filename
+from pymongo import Connection
+from bson.objectid import ObjectId
+from gridfs import GridFS
+from gridfs.errors import NoFile
+from flask.ext.pymongo import PyMongo
+
+ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
+DB = Connection().gridfs_server_test
+FS = GridFS(DB)
+
+app = Flask(__name__)
+moiniigo = PyMongo(app)
+
+def allowed_file(filename):
+    return '.' in filename and \
+        filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
+
+@app.route('/', methods=['GET', 'POST'])
+
+def upload_file():
+    if request.method == 'POST':
+        file = request.files['file']
+        if file and allowed_file(file.filename):
+
+
+            filename = secure_filename(file.filename)
+            oid = FS.put(file, content_type=file.content_type, filename=filename)
+            return redirect(url_for('serve_gridfs_file', oid=str(oid)))
+    return '''
+
+    <!DOCTYPE html>
+    <html>
+    <head>
+    <title>Upload new file</title>
+    </head>
+    <body>
+    <h1>Upload new file</h1>
+
+   <form action="" method="post" enctype="multipart/form-data">
+    <table> 
+      <tr> 
+         <td> <label for="fname">File Name</label> </td>
+         <td><input type="text" name="fname"> </td>
+      </tr> 
+      <tr>
+           <td><label for="field">Field</label></td>
+           <td><select>
+           <option value="flyer">Flyer</option>
+           <option value="brochure">Brochure</option>
+           <option value="handout">Handout</option>
+           <option value="banner">Banner</option>
+           <option value="standee">Standee</option>
+           <option value="report">Report</option>
+           <option value="attendance-form">Attendance Form</option>
+           <option value="feedback-form">Feedback form</option>
+           <option value="checklist">Checklist</option> 
+    </select>  </td>   
+      </tr>
+ <tr><td><input type="file" name="file"> </td><td></td></tr>
+    <tr><td>
+    <input type="submit" value="Upload"></td><td></td></tr></table>
+    </form>
+    <a href="%s">All files</a>
+    </body>
+    </html>
+    ''' % url_for('list_gridfs_files')
+
+@app.route('/files')
+def list_gridfs_files():
+    files = [FS.get_last_version(file) for file in FS.list()]
+    file_list = "\n".join(['<li><a href="%s">%s</a></li>' % \
+(url_for('serve_gridfs_file', oid=str(file._id)), file.name) \
+for file in files])
+    return '''
+    <!DOCTYPE html>
+    <html>
+    <head>
+    <title>Files</title>
+
+
+  </head>
+    <body>
+    <h1>Files</h1>
+    <ul>
+    %s
+    </ul>
+    <a href="%s">Upload new file</a>
+    </body>
+    </html>
+    ''' % (file_list, url_for('upload_file'))
+
+@app.route('/files/<oid>')
+def serve_gridfs_file(oid):
+    try:
+        file = FS.get(ObjectId(oid))
+        response = make_response(file.read())
+        response.mimetype = file.content_type
+        return response
+    except NoFile:
+        abort(404)
+
+if __name__ == '__main__':
+    app.run('0.0.0.0')
+  
+#+END_SRC
+
+index.html is as follows:
+#+begin_src 
+{% extends "layout.html" %}
+{% block title %}Welcome{% endblock %}
+{% block body %}
+  <h2>Welcome</h2>
+  <p>
+   The Outreach portal is the single point of contact for the feedback, resource management related to outreach activities.
+   
+  <p>
+   Outreach portal allows to upload and download documents related to outreach activities.
+  {% if g.user %}
+  <p>
+    You are now logged in as <strong>{{ g.user }}</strong>
+  {% else %}
+  <p>
+    To sign in click the sign in button above.
+  {% endif %}
+{% endblock %}
+
+#+end_src
+
+Layout.html source code
+
+#+begin_src 
+<!doctype html>
+<title>{% block title %}{% endblock %} | Flask Persona Example</title>
+<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+<script src="{{ config.PERSONA_JS }}"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+<script>
+  /* the url root is useful for doing HTTP requests */
+  var $URL_ROOT = {{ request.url_root|tojson }};
+
+  /* we store the current user here so that the persona
+     javascript support knows about the current user */
+  var $CURRENT_USER = {{ g.user|tojson }};
+</script>
+<script src="{{ url_for('static', filename='persona.js') }}"></script>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<header>
+  <h1>Mozilla Persona Example</h1>
+  <div class="authbar">
+    {% if g.user %}
+      Signed in as <em>{{ g.user }}</em>
+      (<a href="#" class="signout">Sign out</a>)
+    {% else %}
+      Not signed in. <a href="#" class="signin">Sign in</a>
+    {% endif %}
+  </div>
+</header>
+{% block body %}{% endblock %}
+
+#+end_src
