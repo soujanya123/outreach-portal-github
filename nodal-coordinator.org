@@ -30,20 +30,24 @@ institute is as follows
   materials and resources needed for any workshop
 
 ** Primary role of Nodal Coordinator:
-*** Prior to the workshop
+*** Before workshop
 + Plan the workshop
   - College details
   - Schedule/Calender the event
-  - Map the syllabus[done offfline]
+  - Map the syllabus[happens offline]
   - Access resources[Marketing material, feedback form etc]
   - Coordinating with other institutes
   - Define agenda for the workshop       
 *** During workshop
-+ Updating attendence[hard copy]
-+ Update the labs used in the workshop
-+ List the experiments covered/attempted during workshop
++ Update attendence[hard copy]
++ Account the labs being used in the workshop
++ Cumulative count of experiments covered/attempted during workshop
++ Download the feedback forms and circulate in the workshop
 *** Post workshop
-+ Update the ip address of the workshop center
-+ Update the data of number of labs and experiments accessed in the workshop
-+ Upload photos of the workshop sessions
-+ Upload reports[attendence, feedback forms etc] onto the outreach portal
++ Update following details:
+    - IP address of the workshop center
+    - Count on the labs and usage of experiments accessed during the workshop
++ Upload reports:
+    - Certification by the college for conducting workshop
+    - Photos of the workshop sessions, at a central location on outreach portal
+    - Attendence sheet, feedback forms etc onto the outreach portal
