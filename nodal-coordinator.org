@@ -10,18 +10,17 @@ explained, in the earlier document, we found the users of the
 system. This document explains the user 'Nodal Coordinator'.
 
 * Nodal Center Coordinator 
-This document explains the workflow of Nodal Center Coordinator. The
-Nodal Center Coordinator is the point of contact between the college
-and the Participating Institutes(IITD, IIITH, IITB etc). Every Nodal center
-has a target defined to conduct workshops per semister. The outlook of the
-interaction between nodal center coordinator and the participating
+This document explains the workflow of Nodal Coordinator. The Nodal
+Coordinator is the point of contact between the college and the
+Participating Institutes(IITD, IIITH, IITB etc). Every nodal center
+has a target defined to conduct workshops per semister. The outlook of
+the interaction between nodal center coordinator and the participating
 institute is as follows
-1. Planning and execution of the workshop is done by Nodal Center
-   Coordinator
+1. Planning and execution of the workshop is done by Nodal Coordinator
 2. Outreach coordiator shares the checklist with nodal coordinator,
    providing them all materials required(brochure, flyers, templates,
    word documents etc) prior conducting any workshop
-3. After the workshop the nodal center co-ordinator shares the worshop
+3. After the workshop the nodal co-ordinator shares the worshop
    reports(attendence, feedback forms etc) with outreach co-ordinator
 
 ** How does the Outreach Portal helps the Nodal Center Co-ordinator?
@@ -30,21 +29,21 @@ institute is as follows
 + Outreach Portal provides a platform to access and exchange the
   materials and resources needed for any workshop
 
-** Primary role of Nodal Center Co-ordinator:
+** Primary role of Nodal Coordinator:
 *** Prior to the workshop
-+ Plan/Conduct the workshop
++ Plan the workshop
   - College details
   - Schedule/Calender the event
   - Map the syllabus[done offfline]
   - Access resources(Marketing material, feedback form etc)
-  - Co-ordinating with other institutes
-  - Define the agenda for workshop       
+  - Coordinating with other institutes
+  - Define agenda for the workshop       
 *** During workshop
 + Updating attendence[hard copy]
 + Update the labs used in the workshop
-+ experiments covered/attempted
-*** Post worksop
++ List the experiments covered/attempted during workshop
+*** Post workshop
 + Update the ip address of the workshop center
-+ Collect the data of number of labs and experiments accessed in the workshop
++ Update the data of number of labs and experiments accessed in the workshop
 + Upload photos of the workshop sessions
-+ Upload reports[attendence, feedback forms etc] on the portal
++ Upload reports[attendence, feedback forms etc] onto the outreach portal
