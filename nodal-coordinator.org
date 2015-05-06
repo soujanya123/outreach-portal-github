@@ -1,0 +1,50 @@
+#+Title: Nodal coordinator workflow
+#+Author: Soujanya
+#+Email: soujanya@vlabs.ac.in
+#+Date: 2015-05-05
+
+* Introduction 
+
+This document explains the workflow of Outreach coordinator. As
+explained, in the earlier document, we found the users of the
+system. This document explains the user 'Nodal Co-ordinator'.
+
+* Nodal Center Co-ordinator 
+This document explains the workflow of Nodal Center Co-ordinator. The
+Nodal Center co-ordinator is the point of contact between the college
+and the Participating Institutes(IITD, IIITH, IITB etc). Every Nodal center
+has a target defined to conduct workshops per semister. The outlook of the
+interaction between nodal center co-ordinator and the participating
+institute is as follows
+1. Planning and execution of the workshop is done by Nodal Center
+   Co-ordinator
+2. Outreach co-ordiator shares the checklist, provide them all
+   materials required(brochure, flyers, templates, word documents etc)
+   prior conducting any workshop
+3. After the workshop the nodal center co-ordinator shares the worshop
+   reports(attendence, feedback forms etc) with outreach co-ordinator
+
+** How does the Outreach Portal helps the Nodal Center Co-ordinator?
++ Outreach Portal acts as a single point of contact to participate in outreach
+  activities happening in and accross all the institutes
++ Outreach Portal provides a platform to access and exchange the
+  materials and resources needed for any workshop
+
+** Primary role of Nodal Center Co-ordinator:
+*** Prior to the workshop
++ Plan/Conduct the workshop
+  - College details
+  - Schedule/Calender the event
+  - Map the syllabus[done offfline]
+  - Access resources(Marketing material, feedback form etc)
+  - Co-ordinating with other institutes
+  - Define the agenda for workshop       
+*** During workshop
++ Updating attendence[hard copy]
++ Update the labs used in the workshop
++ experiments covered/attempted
+*** Post worksop
++ Update the ip address of the workshop center
++ Collect the data of number of labs and experiments accessed in the workshop
++ Upload photos of the workshop sessions
++ Upload reports[attendence, feedback forms etc] on the portal
