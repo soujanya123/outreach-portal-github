@@ -7,20 +7,20 @@
 
 This document explains the workflow of Outreach coordinator. As
 explained, in the earlier document, we found the users of the
-system. This document explains the user 'Nodal Co-ordinator'.
+system. This document explains the user 'Nodal Coordinator'.
 
-* Nodal Center Co-ordinator 
-This document explains the workflow of Nodal Center Co-ordinator. The
-Nodal Center co-ordinator is the point of contact between the college
+* Nodal Center Coordinator 
+This document explains the workflow of Nodal Center Coordinator. The
+Nodal Center Coordinator is the point of contact between the college
 and the Participating Institutes(IITD, IIITH, IITB etc). Every Nodal center
 has a target defined to conduct workshops per semister. The outlook of the
-interaction between nodal center co-ordinator and the participating
+interaction between nodal center coordinator and the participating
 institute is as follows
 1. Planning and execution of the workshop is done by Nodal Center
-   Co-ordinator
-2. Outreach co-ordiator shares the checklist, provide them all
-   materials required(brochure, flyers, templates, word documents etc)
-   prior conducting any workshop
+   Coordinator
+2. Outreach coordiator shares the checklist with nodal coordinator,
+   providing them all materials required(brochure, flyers, templates,
+   word documents etc) prior conducting any workshop
 3. After the workshop the nodal center co-ordinator shares the worshop
    reports(attendence, feedback forms etc) with outreach co-ordinator
 
